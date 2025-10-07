@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Dashboard - AET{% endblock %}
+
+{% block content %}
+<div class='dashboard-fullcontainer'>
+  <header class='dashboard-header-full'>
+    <div class='welcome-wrapper'>
+      <h1>Welcome back, <span class='user-highlight'>{{ username }}</span></h1>
+      <p>Secure your files with military-grade encryption</p>
+    </div>
+    <div class='logout-wrapper'>
+      <a href='{{ url_for('logout') }}' class='logout-button' aria-label='Logout'>
+        <svg xmlns='http://www.w3.org/2000/svg' class='logout-icon' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'>
+          <path d='M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4'></path>
+          <polyline points='16 17 21 12 16 7'></polyline>
+          <line x1='21' y1='12' x2='9' y2='12'></line>
+        </svg>
+        Logout
+      </a>
+    </div>
+  </header>
+
+  <main class='dashboard-main-grid'>
+    <section class='encrypt-section'>
+      <div class='section-header'>
+        <h2>Encrypt a File</h2>
+        <p>Secure your files with AES-256 encryption</p>
+      </div>
+      <form action='{{ url_for('encrypt') }}' method='post' enctype='multipart/form-data'>
+        <div class='form-group'>
+          <label for='encrypt-file'>Choose File</label>
+          <input type='file' id='encrypt-file' name='file' required>
+        </div>
+        <div class='form-group password-field'>
+          <label for='encrypt-password'>Encryption Password</label>
+          <input type='password' id='encrypt-password' class='password-input' name='password' required>
+          <label class='show-password'>
+            <input type='checkbox' class='toggle-password' data-target='encrypt-password'> Show Password
+          </label>
+          <a href='{{ url_for('forgot_password') }}' class='forgot-password-link'>Forgot Password?</a>
+        </div>
+        <button type='submit' class='btn btn-primary'>Encrypt and Download</button>
+      </form>
+    </section>
+
+    <section class='decrypt-section'>
+      <div class='section-header'>
+        <h2>Decrypt a File</h2>
+        <p>Restore your encrypted files securely</p>
+      </div>
+      <form action='{{ url_for('decrypt') }}' method='post' enctype='multipart/form-data'>
+        <div class='form-group'>
+          <label for='decrypt-file'>Choose Encrypted File (.enc)</label>
+          <input type='file' id='decrypt-file' name='file' accept='.enc' required>
+        </div>
+        <div class='form-group password-field'>
+          <label for='decrypt-password'>Decryption Password</label>
+          <input type='password' id='decrypt-password' class='password-input' name='password' required>
+          <label class='show-password'>
+            <input type='checkbox' class='toggle-password' data-target='decrypt-password'> Show Password
+          </label>
+          <a href='{{ url_for('forgot_password') }}' class='forgot-password-link'>Forgot Password?</a>
+        </div>
+        <button type='submit' class='btn btn-primary'>Decrypt File</button>
+      </form>
+    </section>
+  </main>
+
+  <section class='recent-activity'>
+    <h2>Recent Activity</h2>
+    {% if history %}
+    <table class='activity-table'>
+      <thead>
+        <tr>
+          <th>File Name</th>
+          <th>Operation</th>
+          <th>Timestamp</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in history %}
+        <tr>
+          <td>{{ item[0] }}</td>
+          <td><span class='badge badge-{{ item[1] }}'>{{ item[1]|capitalize }}</span></td>
+          <td>{{ item[2] }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <div class='empty-state'>
+      <p>No file operations yet. Start by encrypting or decrypting a file above.</p>
+    </div>
+    {% endif %}
+  </section>
+</div>
+
+<script>
+// Password toggle script
+const toggles = document.querySelectorAll('.toggle-password');
+toggles.forEach(toggle => {
+  toggle.addEventListener('change', () => {
+    const targetId = toggle.getAttribute('data-target');
+    const input = document.getElementById(targetId);
+    input.type = toggle.checked ? 'text' : 'password';
+  });
+});
+</script>
+{% endblock %}

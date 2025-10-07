@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Download Decrypted File{% endblock %}
+{% block content %}
+<div class="download-success">
+  <h2>File is ready!</h2>
+  <a href="{{ url_for('download_file', filename=download_filename) }}" class="btn btn-primary">Download File</a>
+  <br><br>
+  <a href="{{ url_for('dashboard') }}">Return to Dashboard</a>
+</div>
+<script>
+  // Optionally auto-redirect after N seconds:
+  // setTimeout(() => { window.location.href = "{{ url_for('dashboard') }}" }, 8000);
+</script>
+{% endblock %}

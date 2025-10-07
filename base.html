@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Advanced Encryption Tool{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css">
+</head>
+<body>
+    <header class="site-header">
+  <div class="container header-container">
+    <a href="{{ url_for('dashboard') }}" class="logo-title-link">
+      <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Advanced Encryption Tool Logo" class="site-logo" />
+      <span class="site-title">Advanced Encryption Tool</span>
+    </a>
+  </div>
+</header>
+
+    <div class="container-narrow">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash flash-{{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

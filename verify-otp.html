@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Verify OTP - AET{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="glass-card text-center">
+            <h1 class="form-title">Two-Factor Authentication</h1>
+            <p class="form-subtitle">An OTP has been sent to your email. Please enter it below.</p>
+            <form method="POST">
+                <div class="mb-4">
+                    <label for="otp" class="form-label">Verification Code</label>
+                    <input type="text" class="form-control text-center fs-4" id="otp" name="otp" maxlength="6" pattern="[0-9]*" inputmode="numeric" required>
+                </div>
+                <button type="submit" class="btn btn-futuristic w-100">Verify</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
